@@ -12,6 +12,7 @@ export default function Home() {
       <main>
         <h1>Blog Next.js and Tailwind </h1>
       </main>
+
       <div>
         {blogPosts.map((item) => (
           <div key={item.headline}>
