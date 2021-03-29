@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { format, parseISO } from "date-fns";
 import { blogPosts } from "../../lib/data";
 
 export default function BlogPage({ headline, date, body }) {
@@ -10,7 +11,10 @@ export default function BlogPage({ headline, date, body }) {
       </Head>
 
       <main>
-        <h1>{headline} </h1>
+        <h1 className="text-2xl font-semibold capitalize">{headline}</h1>
+        <div className="font-light text-grey-200 text-xs mb-9">
+          {format(parseISO(date), "MMMM do, uuu")}
+        </div>
         <div>{body}</div>
       </main>
     </div>
@@ -18,7 +22,7 @@ export default function BlogPage({ headline, date, body }) {
 }
 
 export async function getStaticProps(context) {
-  console.log("context", context);
+  console.log("slug.js context", context);
   const { params } = context;
 
   return {
