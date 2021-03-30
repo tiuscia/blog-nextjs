@@ -1,8 +1,12 @@
 import Head from "next/head";
 import { format, parseISO } from "date-fns";
-import { blogPosts } from "../../lib/data";
+import renderToString from "next-mdx-remote/render-to-string";
+import hydrate from "next-mdx-remote/hydrate";
 
-export default function BlogPage({ headline, date, body }) {
+import { getAllPosts } from "../../lib/data";
+
+export default function BlogPage({ headline, date, content }) {
+  const hydratedContent = hydrate(content);
   return (
     <div>
       <Head>
@@ -15,26 +19,32 @@ export default function BlogPage({ headline, date, body }) {
         <div className="font-light text-grey-200 text-xs mb-9">
           {format(parseISO(date), "MMMM do, uuu")}
         </div>
-        <div>{body}</div>
+        <div className="prose">{hydratedContent}</div>
       </main>
     </div>
   );
 }
 
 export async function getStaticProps(context) {
-  console.log("slug.js context", context);
   const { params } = context;
+  const allPosts = getAllPosts();
+  const { data, content } = allPosts.find((item) => item.slug === params.slug);
+  const mdxSource = await renderToString(content);
 
   return {
-    props: blogPosts.find((item) => item.slug === params.slug), // will be passed to the page component as props
+    props: {
+      ...data,
+      date: data.date.toISOString(),
+      content: mdxSource,
+    },
   };
 }
 
 export async function getStaticPaths() {
   return {
-    paths: blogPosts.map((item) => ({
+    paths: getAllPosts().map((post) => ({
       params: {
-        slug: item.slug,
+        slug: post.slug,
       },
     })),
     fallback: false,

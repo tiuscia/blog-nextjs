@@ -1,14 +1,12 @@
-import "../styles/globals.css";
 import Link from "next/link";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  console.log("_app component>>>>>", Component);
-  console.log("_app pageProps>>>>>>", pageProps);
   return (
     <div className="mx-auto w-9/12">
       <header>
         <h1 className="text-5xl font-extrabold text-center my-9">
-          NextJs Blog testing
+          NextJs Blog with Tailwind
         </h1>
         <nav>
           <ul className="flex flex-row space-x-4 justify-center font-semibold">
