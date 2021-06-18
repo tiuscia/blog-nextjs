@@ -3,6 +3,8 @@ import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { getAllPosts } from "../lib/data.js";
 
+// added a comment
+
 export default function Home({ posts }) {
   return (
     <div>
